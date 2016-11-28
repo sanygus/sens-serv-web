@@ -81,7 +81,6 @@ module.exports.exportAll = (callback) => {
       {},
       { '_id': false },
       {
-        'limit': 10,
         'sort': 'date'
       }
     ).toArray((errArr, values) => {
