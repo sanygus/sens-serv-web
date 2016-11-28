@@ -1,5 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const map = require('async/map');
+const fs = require('fs');
 const options = require('./options');
 const log = require('./log');
 
@@ -41,7 +42,19 @@ module.exports.getLastValues = (callback) => {
                   delete result[options.idDevKey];
                 }
                 result.location = devObj.location;
-                callback(null, result);
+                result.online = false;
+                if ((result.date !== undefined) && ((Date.now() - Date.parse(result.date)) <= options.meteringInterval)) {
+                  result.online = true;
+                }
+                if (result.online) {
+                  result.next = (new Date(Date.parse(result.date) + options.meteringInterval)).toISOString();
+                }
+                fs.access(`static/photos/${devObj[options.idDevKey]}.jpg`, fs.constants.R_OK, (err) => {
+                  if (!err) {
+                    result.imgURL = `/static/photos/${devObj[options.idDevKey]}.jpg`;
+                  }
+                  callback(null, result);
+                })
               } else {
                 callback(new Error('more 1 records on limit'));
               }
@@ -60,6 +73,30 @@ module.exports.getLastValues = (callback) => {
 
 const getAllDevices = (callback) => {
   dataBase.collection(dbCollectDevices).find({}).toArray(callback);
+}
+
+module.exports.exportAll = (callback) => {
+  getAllDevices((errGet, devs) => {
+    dataBase.collection(dbCollectSensors).find(
+      {},
+      { '_id': false },
+      {
+        'limit': 10,
+        'sort': 'date'
+      }
+    ).toArray((errArr, values) => {
+      const newValues = values.map((value) => {
+        devs.forEach((dev) => {
+          if (value[options.idDevKey] === dev[options.idDevKey]) {
+            value.location = dev.location;
+          }
+        });
+        delete value[options.idDevKey];
+        return value;
+      });
+      callback(errGet || errArr, newValues);
+    });
+  });
 }
 
 module.exports.getAllDevices = getAllDevices;

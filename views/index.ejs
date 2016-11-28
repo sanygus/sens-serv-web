@@ -24,25 +24,65 @@
           <div class="sunPutersWr">
           <% values.forEach((value) => { %>
             <!-- ITEM -->
-            <div class="sunItem">
+            <div class="sunItem"
+              <% if (value.imgURL) { %>
+                style="height: 538px;"><a href="<%= value.imgURL %>" target="_blank" style="display: block;"><img src="<%= value.imgURL %>" width=250px height=188px ></a>
+              <% } else { %>
+              >
+              <% } %>
               <div class="sunItemHeader">
                 <%= value.location %>
+                <% if (value.online) { %>
+                  <div class="status status-online"></div>
+                <%  } else { %>
+                  <div class="status status-offline"></div>
+                <%  } %>
               </div>
               <div class="sunItemBody">
                 <table>
-                <% if (value.date) { %>
-                  <tr>
-                    <td>
-                      Актуальность
-                    </td>
-                    <td>
-                      <% 
-                        const dateTime = new Date(value.date);
-                      %>
-                      <%= dateTime.toLocaleString() %>
-                    </td>
-                  </tr>
-                <% } %>
+                  <% if (value.date) { %>
+                    <tr>
+                      <td>
+                        Актуальность
+                      </td>
+                      <td>
+                        <% 
+                          const dateTime = new Date(value.date);
+                        %>
+                        <%= dateTime.toLocaleString("ru") %>
+                      </td>
+                    </tr>
+                  <% } %>
+                  <% if (value.temp !== undefined) { %>
+                    <tr>
+                      <td>
+                        Температура
+                      </td>
+                      <td>
+                        <%= value.temp %> &deg;C
+                      </td>
+                    </tr>
+                  <% } %>
+                  <% if (value.press !== undefined) { %>
+                    <tr>
+                      <td>
+                        Атм. давление
+                      </td>
+                      <td>
+                        <%= value.press %> мм.рт.ст.
+                      </td>
+                    </tr>
+                  <% } %>
+                  <% if (value.mic !== undefined) { %>
+                    <tr>
+                      <td>
+                        Шум
+                      </td>
+                      <td>
+                        <%= value.mic %> (0-1023)
+                      </td>
+                    </tr>
+                  <% } %>
                   <% if (value.gas1) { %>
                     <tr>
                       <td>
@@ -103,33 +143,16 @@
                       </td>
                     </tr>
                   <% } %>
-                  <% if (value.temp) { %>
+                  <% if (value.next) { %>
                     <tr>
                       <td>
-                        Температура
+                        Следующее измерение
                       </td>
                       <td>
-                        <%= value.temp %> &deg;C
-                      </td>
-                    </tr>
-                  <% } %>
-                  <% if (value.press) { %>
-                    <tr>
-                      <td>
-                        Атм. давление
-                      </td>
-                      <td>
-                        <%= value.press %> мм.рт.ст.
-                      </td>
-                    </tr>
-                  <% } %>
-                  <% if (value.mic) { %>
-                    <tr>
-                      <td>
-                        Шум
-                      </td>
-                      <td>
-                        <%= value.mic %> (0-1023)
+                        <% 
+                          const nextDateTime = new Date(value.next);
+                        %>
+                        <%= nextDateTime.toLocaleString("ru") %>
                       </td>
                     </tr>
                   <% } %>
@@ -145,6 +168,11 @@
             <!-- /ITEM -->
             <% }); %>
           </div>
+        </div>
+        <div class="sunItemMore">
+          <a class="moreBtn btn" href="/export?json" target="_blank" style="text-decoration: none;">
+            Экспорт в JSON
+          </a>
         </div>
       </div>
       <div class="footer">

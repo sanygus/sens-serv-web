@@ -84,7 +84,7 @@ a.headerLogo {
     border-bottom: 2px solid #fff;
 }
 .sunItem.opened {
-  height: auto;
+  height: auto !important;
   padding-bottom: 15px;
 }
 .sunItemHeader {
@@ -131,4 +131,17 @@ a.headerLogo {
 .sunItemMore {
     text-align: right;
     padding: 0 15px;
+}
+.status {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-left: 5px; 
+}
+.status-online {
+  background-color: #5C5;
+}
+.status-offline {
+  background-color: #AAA;
 }
