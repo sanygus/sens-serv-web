@@ -89,7 +89,11 @@
                         Заряд
                       </td>
                       <td>
-                        <%= (value.volt2 * 100).toFixed(1) %> %
+                        <% if (value.volt2 >= 0) { %>
+                          <%= (value.volt2 * 100).toFixed(1) %> %
+                        <% } else { %>
+                          error
+                        <% } %>
                       </td>
                     </tr>
                   <% } %>
