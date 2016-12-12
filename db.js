@@ -37,8 +37,10 @@ module.exports.getLastValues = (callback) => {
             if (err) { callback(err); } else {
               if (lastDocs.length <=1) {
                 let result = {};
+                let tmpId = '';
                 if (lastDocs.length === 1) {
                   result = lastDocs.slice()[0];
+                  tmpId = result[options.idDevKey];
                   delete result[options.idDevKey];
                 }
                 result.location = devObj.location;
@@ -48,6 +50,25 @@ module.exports.getLastValues = (callback) => {
                 }
                 if (result.online) {
                   result.next = (new Date(Date.parse(result.date) + options.meteringInterval)).toISOString();
+                }
+                if ((result.volt !== undefined) && (tmpId.length > 0)) {
+                  const chargeConvSettings = options.chargeDevs[tmpId];
+                  if (chargeConvSettings !== undefined) {
+                    let chrg = -1;
+                    if (result.volt === 0) {
+                      chrg = -1;
+                      log('volt no connected!   ' + tmpId); // WARN
+                    } else if (result.volt < chargeConvSettings[0]) {
+                      chrg = 0;
+                      log('outside charge interval <   ' + result.volt + ' ' + tmpId);
+                    } else if (result.volt > chargeConvSettings[1]) {
+                      chrg = 1;
+                      log('outside charge interval >   ' + result.volt + ' ' + tmpId);
+                    } else {
+                      chrg = (result.volt - chargeConvSettings[0]) / (chargeConvSettings[1] - chargeConvSettings[0]);
+                    }
+                    result.volt2 = chrg;
+                  }
                 }
                 fs.access(`static/photos/${devObj[options.idDevKey]}.jpg`, fs.constants.R_OK, (err) => {
                   if (!err) {

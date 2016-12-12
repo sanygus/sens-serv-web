@@ -83,6 +83,16 @@
                       </td>
                     </tr>
                   <% } %>
+                  <% if (value.volt2 !== undefined) { %>
+                    <tr>
+                      <td>
+                        Заряд
+                      </td>
+                      <td>
+                        <%= (value.volt2 * 100).toFixed(1) %> %
+                      </td>
+                    </tr>
+                  <% } %>
                   <% if (value.gas1) { %>
                     <tr>
                       <td>
