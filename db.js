@@ -1,11 +1,13 @@
 const MongoClient = require('mongodb').MongoClient;
 const map = require('async/map');
+const parallel = require('async/parallel');
 const fs = require('fs');
 const options = require('./options');
 const log = require('./log');
 
 const dbCollectSensors = 'sensors';
 const dbCollectDevices = 'devs';
+const dbCollectEvents = 'events';
 let dataBase;
 
 MongoClient.connect(options.mongoDBUrl, (err, db) => {
@@ -24,70 +26,72 @@ module.exports.getLastValues = (callback) => {
       map(
         devs,
         (devObj, callback) => {
-          const search = {};
-          search[options.idDevKey] = devObj[options.idDevKey];
-          dataBase.collection(dbCollectSensors).find(
-            search,
-            { '_id': false },
-            {
-              'limit': 1,
-              'sort': [['date', 'desc']]
-            }
-          ).toArray((err, lastDocs) => {
-            if (err) { callback(err); } else {
-              if (lastDocs.length <=1) {
-                let result = {};
-                let tmpId = '';
-                if (lastDocs.length === 1) {
-                  result = lastDocs.slice()[0];
-                  tmpId = result[options.idDevKey];
-                  delete result[options.idDevKey];
+          parallel({
+            sensors: (callbackP) => {
+              const search = {};
+              search[options.idDevKey] = devObj[options.idDevKey];
+              dataBase.collection(dbCollectSensors).find(
+                search,
+                { '_id': false },
+                {
+                  'limit': 1,
+                  'sort': [['date', 'desc']]
                 }
-                result.location = devObj.location;
-                result.online = false;
-                if ((result.date !== undefined) && ((Date.now() - Date.parse(result.date)) <= options.meteringInterval)) {
-                  result.online = true;
-                }
-                if (result.online) {
-                  result.next = (new Date(Date.parse(result.date) + options.meteringInterval)).toISOString();
-                }
-                if ((result.volt !== undefined) && (tmpId.length > 0)) {
-                  const chargeConvSettings = options.chargeDevs[tmpId];
-                  if (chargeConvSettings !== undefined) {
-                    let chrg = -1;
-                    if (result.volt === 0) {
-                      chrg = -1;
-                      log('volt no connected!   ' + tmpId); // WARN
-                    } else if (result.volt < chargeConvSettings[0]) {
-                      chrg = 0;
-                      log('outside charge interval <   ' + result.volt + ' ' + tmpId);
-                    } else if (result.volt > chargeConvSettings[1]) {
-                      chrg = 1;
-                      log('outside charge interval >   ' + result.volt + ' ' + tmpId);
-                    } else {
-                      chrg = (result.volt - chargeConvSettings[0]) / (chargeConvSettings[1] - chargeConvSettings[0]);
+              ).toArray((err, lastDocs) => {
+                if (err) { callbackP(err); } else {
+                  if (lastDocs.length <=1) {
+                    let result = {};
+                    if (lastDocs.length === 1) {
+                      result = lastDocs.slice()[0];
+                      delete result[options.idDevKey];
                     }
-                    result.volt2 = chrg;
+                    callbackP(null, result);
+                  } else {
+                    callbackP(new Error('more 1 records on limit'));
                   }
                 }
-                fs.access(`static/photos/${devObj[options.idDevKey]}.jpg`, fs.constants.R_OK, (err) => {
-                  if (!err) {
-                    result.imgURL = `/static/photos/${devObj[options.idDevKey]}.jpg`;
+              });
+            },
+            status: (callbackP) => {
+              const search = {};// search by type/event
+              search[options.idDevKey] = devObj[options.idDevKey];
+              dataBase.collection(dbCollectEvents).find(
+                search,
+                { '_id': false },
+                {
+                  'limit': 1,
+                  'sort': [['date', 'desc']]
+                }
+              ).toArray((err, lastStat) => {
+                if (err) { callbackP(err); } else {
+                  if (lastStat.length <=1) {
+                    let result = {};
+                    if (lastStat.length === 1) {
+                      result = lastStat.slice()[0];
+                      delete result[options.idDevKey];
+                    }
+                    callbackP(null, result);
+                  } else {
+                    callbackP(new Error('more 1 stat records on limit'));
                   }
-                  callback(null, result);
-                })
-              } else {
-                callback(new Error('more 1 records on limit'));
-              }
+                }
+              });
+            },
+            imgURL: (callbackP) => {
+              const url = `static/photos/${devObj[options.idDevKey]}.jpg`;
+              fs.access(url, fs.constants.R_OK, (err) => {
+                if (err) {
+                  callbackP(null, null);
+                } else {
+                  callbackP(null, '/' + url);
+                }
+              })
             }
+          }, (err, resultPar) => {
+            resultPar.location = devObj.location;
+            callback(err, resultPar);
           });
-        },
-        (err, lastObjs) => {
-          if (err) { callback(err); } else {
-            callback(null, lastObjs);
-          }
-        }
-      );
+        }, callback);
     }
   });
 }

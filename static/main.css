@@ -145,3 +145,7 @@ a.headerLogo {
 .status-offline {
   background-color: #AAA;
 }
+.status-text {
+  font-size: 75%;
+  font-weight: normal;
+}
