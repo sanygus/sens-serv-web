@@ -149,3 +149,7 @@ a.headerLogo {
   font-size: 75%;
   font-weight: normal;
 }
+.status-warn {
+  display: inline-block;
+  color: #F00;
+}
