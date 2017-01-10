@@ -36,7 +36,7 @@
                 <%  } %>
                 <%= value.location %>
                 <% if (value.status) { %>
-                  <% if (value.status.event === 'wakeup' && ((new Date) - new Date(value.status.date) <= 120000)) { %>
+                  <% if (value.status.event === 'wakeup' && ((new Date) - new Date(value.status.date) <= 200000)) { %>
                     <div class="status status-online"></div>
                     <div class="status-text">Включено с <%= (new Date(value.status.date)).toLocaleString("ru") %></div>
                   <% } else if (value.status.event === 'sleep') { 
