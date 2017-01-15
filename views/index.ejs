@@ -32,7 +32,7 @@
               <% } %>
               <div class="sunItemHeader">
                 <% if (value.warn) { %>
-                    <div class="status-warn" title="<%= value.warn.message %>">!</div>
+                    <div class="status-warn" title="<%= value.warn.message %> [<%= new Date(value.warn.date).toLocaleString("ru") %>]">!</div>
                 <%  } %>
                 <%= value.location %>
                 <% if (value.status) { %>
@@ -44,7 +44,7 @@
                       const offToDate = new Date(offDate.valueOf() + value.status.time * 60 * 1000);
                   %>
                     <div class="status status-offline"></div>
-                    <div class="status-text">Выключено с <%= offDate.toLocaleString("ru") %> до <%= offToDate.toLocaleString("ru") %>. (Квант - <%= value.status.cost %>)</div>
+                    <div class="status-text">Выключено с <%= offDate.toLocaleString("ru") %> до <%= offToDate.toLocaleString("ru") %>. (Квант - <%= value.status.cost * 100 %>%)</div>
                   <% } else { %>
                     <div class="status status-offline"></div>
                   <% } %>
