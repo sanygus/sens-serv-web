@@ -11,6 +11,8 @@ module.exports = (obj) => {
         out = JSON.stringify(obj);
       }
     }
-    console.log(prefix + out);
+    fs.appendFile("websrv.log", prefix + out + '\n', (err) => {
+      if (err) { console.log(err); }
+    });
   }
 }
