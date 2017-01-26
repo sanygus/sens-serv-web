@@ -135,10 +135,11 @@ module.exports.exportAll = (callback) => {
       {},
       { '_id': false },
       {
-        'sort': 'date'
+        'sort': [['date','desc']],
+        'limit': 100,
       }
     ).toArray((errArr, values) => {
-      const newValues = values.map((value) => {
+      const newValues = values.reverse().map((value) => {
         devs.forEach((dev) => {
           if (value[options.idDevKey] === dev[options.idDevKey]) {
             value.location = dev.location;

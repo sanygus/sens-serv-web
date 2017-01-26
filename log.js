@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = (obj) => {
   if (obj) {
     const prefix = (new Date).toISOString() + '    ';

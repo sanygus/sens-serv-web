@@ -1,13 +1,17 @@
+@import "/static/font.css";
 html, body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   background-color: #efeeee;
+  background-color: #fff;
 }
-
+.clear {
+    clear: both;
+}
 .mainContainer {
     width: 1024px;
     margin: 0 auto;
@@ -33,23 +37,22 @@ html, body {
 .header {
   width: 100%;
   height: 70px;
-  background-color: rgba(232, 139, 0, 0.64);
   background-color: #fff;
-  border-bottom: 2px solid rgba(232, 139, 0, 1);
+  border-bottom: 1px solid rgb(238, 122, 0);
   /*box-shadow: 0 2px 5px #c7c7c7;*/
 }
 .header .mainContainer {
     height: 100%;
+    box-sizing: border-box;
 }
 a.headerLogo {
     display: block;
-    float: left;
     height: 100%;
     line-height: 70px;
     font-size: 24px;
     text-decoration: none;
     color: #fff;
-    color: rgba(232, 139, 0, 0.7);
+    color: rgb(238, 122, 0);
     font-weight: bold;
 }
 .footer {
@@ -60,96 +63,273 @@ a.headerLogo {
   color: #fff;
 }
 .mainBody {
-    padding: 60px;
-    min-height: 700px;
-    box-shadow: 0 2px 5px #7d7d7d;
 }
-
 
 .sunItem {
-    display: block;
-    float: left;
-    width: 250px;
-    height: 350px;
-    margin: 0 15px 15px 0;
-    background-color: #fff;
-    border: 2px solid #efeeee;
+  margin-bottom: 35px;
 }
-.sunItem:hover {
-  border: 2px solid rgba(0, 136, 232, 0.64);
+.sunItem a {
+  display: block;
+  float: left;
+  width: 220px;
 }
-.sunItem:hover .sunItemHeader {
-    color: #fff;
-    background-color: rgba(0, 136, 232, 0.64);
-    border-bottom: 2px solid #fff;
+.sunItem a img {
+  width: 220px;
 }
-.sunItem.opened {
-  height: auto !important;
-  padding-bottom: 15px;
+.sunItemData {
+  /*width: 780px;*/
+  margin-left: 240px;
+}
+.status-warn, .status {
+  display: inline-block;
 }
 .sunItemHeader {
-  padding: 15px;
-  border-bottom: 2px solid #efeeee;
-  font-weight: bold;
-}
-.sunItemBody {
-    padding: 15px 15px 0;
-    font-size: 12px;
-    box-sizing: border-box;
-    height: 190px;
-    overflow: hidden;
-}
-.sunItem.opened .sunItemBody {
-  height: auto;
-}
-.sunItemBody table {
-  width: 100%;
-}
-.sunItemBody table tr td {
+  font-size: 18px;
   padding: 5px 0;
-}
-.sunItemBody table tr td:first-child {
-  width: 40%;
-  color: #666;
-  text-align: left;
-  vertical-align: top;
-}
-.sunItemBody table tr td:last-child {
-  width: 60%;
-  color: #333;
-  text-align: right;
-  vertical-align: top;
-}
-.sunItemMorePreWr {
-  padding: 0 15px 15px;
-  font-size: 16px;
+  font-weight: bold;
   color: #666;
 }
-.sunItem.opened .sunItemMorePreWr {
-  display: none;
-}
-.sunItemMore {
-    text-align: right;
-    padding: 0 15px;
+.statusBar {
+    float: right;
 }
 .status {
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
-  display: inline-block;
-  margin-left: 5px; 
+  width: 25px;
+  height: 25px;
+  background-image: url('/static/img/online.png');
+  background-size: cover;
 }
-.status-online {
-  background-color: #5C5;
-}
-.status-offline {
-  background-color: #AAA;
-}
-.status-text {
-  font-size: 75%;
-  font-weight: normal;
+.status.status-offline {
+  opacity: 0.2;
 }
 .status-warn {
+  width: 25px;
+  height: 25px;
+  background-image: url('/static/img/warning.png');
+  background-size: cover;
+  cursor: pointer;
+}
+.status-text {
+  padding-bottom: 8px;
+  margin-bottom: 7px;
+  font-size: 12px;
+  color: #666;
+  border-bottom: 1px solid #eee;
+}
+.batteryStatus {
   display: inline-block;
-  color: #F00;
+  position: relative;
+  width: 23px;
+  height: 25px;
+  margin-left: 6px;
+
+}
+.batteryStatus .batteryLevel {
+    position: absolute;
+    background: #000;
+    width: 20px;
+    height: 20px;
+    margin: 2px;
+}
+.batteryStatus .batteryBg {
+    display: block;
+    position: absolute;
+    width: 23px;
+    height: 25px;
+    background-image: url(/static/img/battery2.png);
+    background-size: 23px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.batteryStatusText {
+    font-size: 14px;
+    display: inline-block;
+    vertical-align: top;
+    height: 25px;
+    line-height: 25px;
+}
+.itemDataTabs span {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  opacity: 0.7;
+}
+.itemDataTabs span.active {
+  opacity: 1;
+}
+.detectInfo {
+  background-image: url(/static/img/detectors.png);
+}
+.serviseInfo {
+  background-image: url(/static/img/service_info.png);
+}
+.itemDataTabs span.active:after {
+    content: '';
+    width: 32px;
+    height: 12px;
+    display: block;
+    position: absolute;
+    margin: 31px 0 0 1px;
+    background: #fff;
+}
+.sunItemBody {
+  display: none;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+.sunItemBody.active {
+  display: block;
+}
+.sunItemBodyTitle {
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #666;
+}
+.sunItemData table td {
+  vertical-align: top;
+}
+.menuWr {
+    border-bottom: 1px solid rgb(238, 122, 0);
+    height: 23px;
+    background: rgba(232, 139, 0, 0.64);
+}
+.menuWr .menu {
+    width: 1024px;
+    margin: 0 auto;
+}
+.menuWr a {
+  display: inline-block;
+  padding: 0 10px;
+  line-height: 23px;
+  font-size: 14px;
+  color: #fff;
+  text-decoration: none;
+}
+.menuWr a:hover, .menuWr a:active, .menuWr a:visited {
+  color: #fff;
+  text-decoration: none;
+}
+.menuWr a:hover {
+  background-color: rgb(238, 122, 0);
+}
+@media screen and (max-width: 1023px) {
+  .mainContainer {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .header .mainContainer {
+      height: 100%;
+      padding: 0 25px;
+  }
+  
+  td.graphItem {
+    padding: 0;
+    width: 0px;
+    display: none;
+  }
+}
+@media screen and (max-width: 610px) {
+  a.headerLogo {
+    font-size: 20px;
+  }
+  .footer .mainContainer {
+    padding: 0 10px;
+  }
+  .menuWr .menu {
+    padding: 0 25px;
+  }
+  
+  td.graphItem {
+    padding: 0;
+    width: 0px;
+    display: none;
+  }
+}
+@media screen and (max-width: 480px) {
+  .menuWr .menu {
+    padding: 0;
+  }
+  .mainBody {
+    margin: 0;
+    padding: 10px;
+    box-shadow: none;
+  }
+  .mainContainer {
+    width: 100%;
+  }
+  .header {
+    height: 50px;
+    /*margin-bottom: 10px;*/
+  }
+  .header .mainContainer {
+      height: 100%;
+      padding: 0;
+  }
+  a.headerLogo {
+      display: block;
+      float: none;
+      height: 100%;
+      line-height: 50px;
+      font-size: 4.5vw;
+      text-align: center;
+      text-decoration: none;
+      /*color: rgb(238, 122, 0);*/
+      font-weight: bold;
+  } 
+  .sunItem {
+    margin-bottom: 15px;
+    padding-bottom: 30px;
+    /*border-bottom: 1px solid #ddd;*/
+  }
+  .sunPutersWr .sunItem:last-child {
+    border-bottom: 0px;
+  }
+  .sunItem a {
+    display: block;
+    float: none;
+    width: 100%;
+  }
+  .sunItem a img {
+    width: 100%;
+  }
+  .sunItemData {
+      width: 100%;
+      margin: 0px;
+  }
+  .sunItemHeaderTitle {
+    display: inline-block;
+    padding: 5px 0;
+    font-size: 4vw;
+    font-weight: bold;
+    color: #666;
+  }
+  .statusBar {
+    display: inline-block;
+    float: right;
+  }
+  .batteryStatusText {
+    font-size: 3vw;
+  }
+  td.graphItem {
+    padding: 0;
+    width: 0px;
+    display: none;
+  }
+}
+
+@media screen and (min-width: 481px) {
+  .mainBody {
+    padding: 25px;
+  }
+  .sunItem {
+      margin-bottom: 55px;
+  }
+  .sunItemHeader {
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 9px;
+    }
+
 }
