@@ -34,8 +34,8 @@
   var placemark1 = new YMaps.Placemark(new YMaps.GeoPoint(47.252752,56.144475),{style: s});
   placemark1.setBalloonContent("<div>ул. Ярославская, 30</div>");
   map.addOverlay(placemark1); 
-  var placemark2 = new YMaps.Placemark(new YMaps.GeoPoint(47.264441,56.125351),{style: s});
-  placemark2.setBalloonContent("<div>ул. Чапаева, 19</div>");
+  var placemark2 = new YMaps.Placemark(new YMaps.GeoPoint(47.253981,56.121727),{style: s});
+  placemark2.setBalloonContent("<div>пр. Ленина, 36</div>");
   map.addOverlay(placemark2); 
 
   var createChart = function (id, parent, data, params) {
