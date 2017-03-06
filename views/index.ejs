@@ -24,7 +24,6 @@
           <a href="/export?json">Экспорт данных</a>
         </div>
       </div>
-      <div id="container" style="width:200px; height:100px;"></div>
       <div class="mainBody">
         <div class="mainContainer">
           <div class="sunPutersWr">
@@ -59,7 +58,7 @@
                 </span>
               </div>
               <% if (value.imgURL) { %>
-                <a href="<%= value.imgURL %>" target="_blank"><img src="<%= value.imgURL %>"></a>
+                <a href="<%= value.imgURL %>" target="_blank"><img src="<%= value.imgURL %>"><div class="imgDate"><%= new Date(value.sensors.date).toLocaleString("ru") %></div></a>
               <% } %>
 
               <div class="sunItemData">
