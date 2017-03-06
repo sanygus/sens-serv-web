@@ -115,8 +115,7 @@ module.exports.getLastValues = (callback) => {
               })
             }
           }, (err, resultPar) => {
-            resultPar.location = devObj.location;
-            callback(err, resultPar);
+            callback(err, Object.assign({}, devObj, resultPar));
           });
         },
         callback
