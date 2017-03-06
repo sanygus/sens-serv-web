@@ -130,26 +130,15 @@ const getAllDevices = (callback) => {
 }
 
 module.exports.exportAll = (callback) => {
-  getAllDevices((errGet, devs) => {
-    dataBase.collection(dbCollectSensors).find(
-      {},
-      { '_id': false },
-      {
-        'sort': [['date','desc']],
-        'limit': 100,
-      }
-    ).toArray((errArr, values) => {
-      const newValues = values.reverse().map((value) => {
-        devs.forEach((dev) => {
-          if (value[options.idDevKey] === dev[options.idDevKey]) {
-            value.location = dev.location;
-          }
-        });
-        delete value[options.idDevKey];
-        return value;
-      });
-      callback(errGet || errArr, newValues);
-    });
+  dataBase.collection(dbCollectSensors).find(
+    {},
+    { '_id': false },
+    {
+      'sort': [['date','desc']],
+      'limit': 100,
+    }
+  ).toArray((errArr, values) => {
+    callback(errGet || errArr, values.reverse());
   });
 }
 
