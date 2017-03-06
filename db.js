@@ -138,7 +138,7 @@ module.exports.exportAll = (callback) => {
       'limit': 100,
     }
   ).toArray((errArr, values) => {
-    callback(errGet || errArr, values.reverse());
+    callback(errArr, values.reverse());
   });
 }
 
