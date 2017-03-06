@@ -69,20 +69,7 @@
     });
   };
 
-  
-  var arena = [];
-  var yar = [];
-  var splitData = {};
-  var DATA = {
-    arena: {
-      temp: [],
-      press: []
-    },
-    yar: {
-      temp: [],
-      press: []
-    }
-  };
+  var DATA = {};
 
   var xhr = new XMLHttpRequest();
   xhr.open('GET', "/export?json", true);
@@ -95,51 +82,34 @@
       var exp = JSON.parse(xhr.responseText);
 
       exp.values.forEach(function (item) {
-        if (item.location == 'ул. Ярославская, 30 / 1') {
-          yar.push(item);
-        } else if (item.location == 'Чебоксары-Арена') {
-          arena.push(item);
+        if !(item['iddev'] in DATA) {
+          DATA[item['iddev']] = { temp: [], press: [] }
+        }
+        if (item.temp && item.temp !== null) {
+          DATA[item['iddev']].temp.push(item.temp);
+        }
+        if (item.press && item.press !== null) {
+          DATA[item['iddev']].push.push(item.push);
         }
       });
-      splitData.arena = arena.slice(-10);
-      splitData.yar = yar.slice(-10);
 
-      splitData.arena.forEach(function (el) {
-        if (el.temp && el.temp !== null) DATA.arena.temp.push(el.temp);
-        if (el.press && el.press !== null) DATA.arena.press.push(el.press);
-      });
-      splitData.yar.forEach(function (el) {
-        if (el.temp && el.temp !== null) DATA.yar.temp.push(el.temp);
-        if (el.press && el.press !== null) DATA.yar.press.push(el.press);
-      });
+      console.log(DATA);
 
-      // console.log(DATA);
-
-      createChart(
-        'yarTempChart',
-        document.querySelector('.sunItem.yarItem .graphItem.temp'),
-        DATA.yar.temp,
-        {min: 20, max: 32}
-      );
-      createChart(
-        'yarPressChart',
-        document.querySelector('.sunItem.yarItem .graphItem.press'),
-        DATA.yar.press,
-        {min: 720, max: 780}
-      );
-
-      createChart(
-        'arenaTempChart',
-        document.querySelector('.sunItem.arenaItem .graphItem.temp'),
-        DATA.arena.temp,
-        {min: 20, max: 32}
-      );
-      createChart(
-        'arenaPressChart',
-        document.querySelector('.sunItem.arenaItem .graphItem.press'),
-        DATA.arena.press,
-        {min: 720, max: 780}
-      );
+      for (var iddev in DATA) {
+        DATA[iddev].temp
+        createChart(
+          iddev + 'TempChart',
+          document.querySelector('.sunItem#' + iddev + ' .graphItem.temp'),
+          DATA[iddev].temp.slice(-10),
+          {min: -10, max: 32}
+        );
+        createChart(
+          iddev + 'PressChart',
+          document.querySelector('.sunItem#' + iddev + ' .graphItem.press'),
+          DATA[iddev].press.slice(-10),
+          {min: 720, max: 780}
+        );
+      }
 
     }
   }

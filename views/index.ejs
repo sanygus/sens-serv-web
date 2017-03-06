@@ -29,13 +29,11 @@
         <div class="mainContainer">
           <div class="sunPutersWr">
 
-            <% values.forEach((value, index) => { 
-              let itemClassGraph = "";
-              if (index === 0) { itemClassGraph = "yarItem"; }
-              if (index === 1) { itemClassGraph = "arenaItem"; }
+            <% values.forEach((value) => { 
+              //value is { iddev, location, imgURL, sensors, status, warn }
             %>
             <!-- ITEM -->
-            <div class="sunItem <%= itemClassGraph %>">
+            <div class="sunItem" id="<%= value.iddev %>">
               <div class="sunItemHeader">
                 <span class="sunItemHeaderTitle"><%= value.location %></span>
                 <span class="statusBar">
@@ -45,10 +43,7 @@
                   <% if (value.status) { %>
                     <% if (value.status.event === 'wakeup' && ((new Date) - new Date(value.sensors.date) <= 300000)) { %>
                       <div class="status status-online"></div>
-                    <% } else if (value.status.event === 'sleep') { 
-                        /*const offDate = new Date(value.status.date);
-                        const offToDate = new Date(offDate.valueOf() + value.status.time * 60 * 1000);*/
-                    %>
+                    <% } else if (value.status.event === 'sleep') { %>
                       <div class="status status-offline"></div>
                     <% } else { %>
                       <div class="status status-offline"></div>
