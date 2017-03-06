@@ -82,18 +82,16 @@
       var exp = JSON.parse(xhr.responseText);
 
       exp.values.forEach(function (item) {
-        if !(item['iddev'] in DATA) {
+        if (!(item['iddev'] in DATA)) {
           DATA[item['iddev']] = { temp: [], press: [] }
         }
         if (item.temp && item.temp !== null) {
           DATA[item['iddev']].temp.push(item.temp);
         }
         if (item.press && item.press !== null) {
-          DATA[item['iddev']].push.push(item.push);
+          DATA[item['iddev']].press.push(item.press);
         }
       });
-
-      console.log(DATA);
 
       for (var iddev in DATA) {
         DATA[iddev].temp

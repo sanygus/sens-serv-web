@@ -72,6 +72,7 @@ a.headerLogo {
   display: block;
   float: left;
   width: 220px;
+  text-decoration: none;
 }
 .sunItem a img {
   width: 220px;
@@ -291,6 +292,7 @@ a.headerLogo {
     display: block;
     float: none;
     width: 100%;
+  text-decoration: none;
   }
   .sunItem a img {
     width: 100%;
@@ -332,4 +334,8 @@ a.headerLogo {
       margin-bottom: 9px;
     }
 
+}
+.imgDate {
+  color: #333;
+  font-weight: bold;
 }
