@@ -94,7 +94,6 @@
       });
 
       for (var iddev in DATA) {
-        DATA[iddev].temp
         createChart(
           iddev + 'TempChart',
           document.querySelector('.sunItem#' + iddev + ' .graphItem.temp'),
