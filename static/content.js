@@ -7,7 +7,7 @@ function getRenderContent() {
       var cnt = JSON.parse(xhr.responseText);
       document.getElementById('sunPuterContent').innerHTML = ejs.render(template, cnt);
       document.getElementById('loaderimg').style.display = 'none';
-      window.createCharts();
+      window.main();
       setTimeout(getRenderContent, 20000);
     }
   }
