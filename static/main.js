@@ -38,7 +38,7 @@
   placemark2.setBalloonContent("<div>пр. Ленина, 36</div>");
   map.addOverlay(placemark2); 
 
-  var createChart = function (id, parent, data, params) {
+  window.createChart = function (id, parent, data, params) {
     var node = document.createElement('div');
     node.id = id;
     node.style.width = '400px';
@@ -69,45 +69,43 @@
     });
   };
 
-  var DATA = {};
+  window.createCharts = function() {
+    var DATA = {};
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', "/export?json", true);
+    xhr.send();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        var exp = JSON.parse(xhr.responseText);
 
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', "/export?json", true);
-  xhr.send();
-   
-  xhr.onreadystatechange = processRequest;
-   
-  function processRequest(e) {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      var exp = JSON.parse(xhr.responseText);
+        exp.values.forEach(function (item) {
+          if (!(item['iddev'] in DATA)) {
+            DATA[item['iddev']] = { temp: [], press: [] }
+          }
+          if (item.temp && item.temp !== null) {
+            DATA[item['iddev']].temp.push(item.temp);
+          }
+          if (item.press && item.press !== null) {
+            DATA[item['iddev']].press.push(item.press);
+          }
+        });
 
-      exp.values.forEach(function (item) {
-        if (!(item['iddev'] in DATA)) {
-          DATA[item['iddev']] = { temp: [], press: [] }
+        for (var iddev in DATA) {
+          createChart(
+            iddev + 'TempChart',
+            document.querySelector('.sunItem#' + iddev + ' .graphItem.temp'),
+            DATA[iddev].temp.slice(-10),
+            {min: -10, max: 32}
+          );
+          createChart(
+            iddev + 'PressChart',
+            document.querySelector('.sunItem#' + iddev + ' .graphItem.press'),
+            DATA[iddev].press.slice(-10),
+            {min: 720, max: 780}
+          );
         }
-        if (item.temp && item.temp !== null) {
-          DATA[item['iddev']].temp.push(item.temp);
-        }
-        if (item.press && item.press !== null) {
-          DATA[item['iddev']].press.push(item.press);
-        }
-      });
 
-      for (var iddev in DATA) {
-        createChart(
-          iddev + 'TempChart',
-          document.querySelector('.sunItem#' + iddev + ' .graphItem.temp'),
-          DATA[iddev].temp.slice(-10),
-          {min: -10, max: 32}
-        );
-        createChart(
-          iddev + 'PressChart',
-          document.querySelector('.sunItem#' + iddev + ' .graphItem.press'),
-          DATA[iddev].press.slice(-10),
-          {min: 720, max: 780}
-        );
       }
-
     }
   }
   

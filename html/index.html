@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>SunPuter | Солнечный компьютер, интерфейс сбора данных</title>
+      <link rel="stylesheet" href="/static/main.css">
+  </head>
+  <body>
+    <div class="header">
+      <div class="mainContainer">
+        <a href="http://geoworks.pro/#" class="headerLogo">
+          Мониторинг окружающей среды на базе S&amp;Co
+        </a>
+        <div class="headerMenu"></div>
+      </div>
+    </div>
+    <div class="menuWr">
+      <div class="menu">
+        <a href="#map">Карта размещения</a>
+        <a href="/export?json">Экспорт данных</a>
+      </div>
+    </div>
+    <div class="mainBody">
+      <img src="/static/img/loader.gif" id="loaderimg" style="position: absolute;">
+      <div class="mainContainer">
+        <div class="sunPutersWr" id="sunPuterContent">
+
+        </div>
+      </div>
+    </div>
+    <a name="map"></a>
+    <div class="mapWr" id="YMapsID" style="width: 100%; height: 520px;"></div>
+    <div class="footer">
+        <div class="mainContainer">
+          © ООО "Системная Интеграция"<br>
+          г. Чебоксары, 2017
+        </div>
+    </div>
+    <script src="https://api-maps.yandex.ru/1.1/index.xml" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="/static/main.js"></script>
+    <script src="/static/ejs.min.js"></script>
+    <script src="/static/content.js"></script>
+  </body>
+</html>

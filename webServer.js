@@ -5,15 +5,24 @@ const { httpPort } = require('./options');
 
 const server = express();
 server.use('/static', express.static('static'));
-server.set('view engine', 'ejs');
 
 server.get('/', (req, res) => {
   db.getLastValues((err, values) => {
     if (err) {
       log(err);
-      res.status(500).render('error');
+      res.status(500).sendFile(__dirname + '/html/error.html');
     } else {
-      res.render('index', { values });
+      res.sendFile(__dirname + '/html/index.html');
+    }
+  });
+});
+server.get('/content', (req, res) => {
+  db.getLastValues((err, values) => {
+    if (err) {
+      log(err);
+      res.type('application/json').status(500).send({'error': 1});
+    } else {
+      res.type('application/json').status(200).send(JSON.stringify({ values }));
     }
   });
 });

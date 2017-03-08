@@ -1,0 +1,208 @@
+<% values.forEach((value) => { 
+  //value is { iddev, location, imgURL, sensors, status, warn }
+%>
+<!-- ITEM -->
+<div class="sunItem" id="<%= value.iddev %>">
+  <div class="sunItemHeader">
+    <span class="sunItemHeaderTitle"><%= value.location %></span>
+    <span class="statusBar">
+      <% if (value.warn) { %>
+        <span class="status-warn" title="<%= value.warn.message %> [<%= new Date(value.warn.date).toLocaleString("ru") %>]"></span>
+      <%  } %>
+      <% if (value.status) { %>
+        <% if (value.status.event === 'wakeup' && ((new Date) - new Date(value.sensors.date) <= 300000)) { %>
+          <div class="status status-online"></div>
+        <% } else if (value.status.event === 'sleep') { %>
+          <div class="status status-offline"></div>
+        <% } else { %>
+          <div class="status status-offline"></div>
+        <% } %>
+      <%  } %>
+      <% if (value.sensors.charge !== undefined) { %>
+      <span class="batteryStatus">
+        <span class="batteryLevel" style="width: <%= (value.sensors.charge * 20).toFixed(1) %>px;"></span>
+        <span class="batteryBg"></span>
+      </span>
+      <span class="batteryStatusText"><%= (value.sensors.charge * 100).toFixed(1) %>%</span>
+      <% } %>
+    </span>
+  </div>
+  <% if (value.imgURL) { %>
+    <a href="<%= value.imgURL %>" target="_blank"><img src="<%= value.imgURL %>"><div class="imgDate"><%= new Date(value.sensors.date).toLocaleString("ru") %></div></a>
+  <% } %>
+
+  <div class="sunItemData">
+    <div class="itemDataTabs">
+      <span class="detectInfo active" data-ref="detectors"></span>
+      <span class="serviseInfo" data-ref="device"></span>
+    </div>
+    <div class="sunItemBody device">
+      <div class="sunItemBodyTitle">Показания системы</div>
+        <table>
+           
+            <tbody>
+              <% if (value.status) { %>
+              <tr>
+                <td>
+                  Статус 
+                </td>
+                <td>
+                <% if (value.status.event === 'wakeup' && ((new Date) - new Date(value.sensors.date) <= 300000)) { %>
+                  Включено с <%= (new Date(value.status.date)).toLocaleString("ru") %>
+                <% } else if (value.status.event === 'sleep') { 
+                    const offDate = new Date(value.status.date);
+                    const offToDate = new Date(offDate.valueOf() + value.status.time * 60 * 1000);
+                %>
+                  Выключено с <%= offDate.toLocaleString("ru") %> до <%= offToDate.toLocaleString("ru") %> (Квант - <%= (value.status.cost * 100).toFixed(2) %>%)
+                <% } else { %>
+                  Offline
+                <% } %>
+                </td>
+              </tr>
+              <%  } %>
+
+              <% if (value.sensors.charge !== undefined) { %>
+              <tr>
+                <td>
+                  Заряд
+                </td>
+                <td>
+                  <%= (value.sensors.charge * 100).toFixed(1) %> %
+                </td>
+              </tr>
+              <% } %>
+          
+              <% if (value.sensors.date) { %>
+              <tr>
+                <td>
+                  Актуальность данных
+                </td>
+                <td>
+                  <% 
+                const dateTime = new Date(value.sensors.date);
+                  %>
+                  <%= dateTime.toLocaleString("ru") %>
+                </td>
+              </tr>
+              <% } %>
+
+            </tbody>
+        </table>
+    </div>
+
+    <% if (value.sensors) { %>
+    <div class="sunItemBody detectors active">
+      <div class="sunItemBodyTitle">Показания датчиков</div>
+      <table>                      
+          <% if (value.sensors.temp !== undefined) { %>
+            <tr>
+              <td>
+                Температура
+              </td>
+              <td>
+                <%= value.sensors.temp %> &deg;C
+              </td>
+              <td class="graphItem temp" height="102px"></td>
+            </tr>
+          <% } %>
+          
+          <% if (value.sensors.press !== undefined) { %>
+            <tr>
+              <td>
+                Атм. давление
+              </td>
+              <td>
+                <%= value.sensors.press %> мм.рт.ст.
+              </td>
+              <td class="graphItem press" height="102px"></td>
+            </tr>
+          <% } %>
+          
+          <% if (value.sensors.mic !== undefined) { %>
+            <tr>
+              <td>
+                Шум
+              </td>
+              <td>
+                <%= value.sensors.mic %> (0-1023)
+              </td>
+              <td class="graphItem"></td>
+            </tr>
+          <% } %>
+          
+          <% if (value.sensors.gas1) { %>
+            <tr>
+              <td>
+                Детектор газа - пропан-бутан
+              </td>
+              <td>
+                <%= value.sensors.gas1[0] %> ppm
+              </td>
+              <td class="graphItem"></td>
+            </tr>
+            <tr>
+              <td>
+                Детектор газа - метан
+              </td>
+              <td>
+                <%= value.sensors.gas1[1] %> ppm
+              </td>
+              <td class="graphItem"></td>
+            </tr>
+            <tr>
+              <td>
+                Детектор газа - дым
+              </td>
+              <td>
+                <%= value.sensors.gas1[2] %> ppm
+              </td>
+              <td class="graphItem"></td>
+            </tr>
+            <tr>
+              <td>
+                Детектор газа - водород
+              </td>
+              <td>
+                <%= value.sensors.gas1[3] %> ppm
+              </td>
+              <td class="graphItem"></td>
+            </tr>
+          <% } %>
+
+          <% if (value.sensors.gas2) { %>
+            <tr>
+              <td>
+                Детектор газа 2 - пропан-бутан
+              </td>
+              <td>
+                <%= value.sensors.gas2[0] %> ppm
+              </td>
+              <td class="graphItem"></td>
+            </tr>
+            <tr>
+              <td>
+                Детектор газа 2 - метан
+              </td>
+              <td>
+                <%= value.sensors.gas2[1] %> ppm
+              </td>
+              <td class="graphItem"></td>
+            </tr>
+            <tr>
+              <td>
+                Детектор газа 2 - CO
+              </td>
+              <td>
+                <%= value.sensors.gas2[2] %> ppm
+              </td>
+              <td class="graphItem"></td>
+            </tr>
+          <% } %>
+      </table>
+    </div>
+    <% } %>
+  </div>
+  <div class="clear"></div>
+</div>
+<!-- /ITEM -->
+<% }); %>
