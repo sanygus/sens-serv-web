@@ -28,7 +28,7 @@
     </span>
   </div>
   <% if (value.imgURL) { %>
-    <a href="<%= value.imgURL %>" target="_blank"><img src="<%= value.imgURL %>"><div class="imgDate"><%= new Date(value.sensors.date).toLocaleString("ru") %></div></a>
+    <a href="<%= value.imgURL %>" target="_blank"><img src="<%= value.imgURL + '?' + Math.random() %>"><div class="imgDate"><%= new Date(value.sensors.date).toLocaleString("ru") %></div></a>
   <% } %>
 
   <div class="sunItemData">
