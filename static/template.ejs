@@ -27,7 +27,9 @@
       <% } %>
     </span>
   </div>
-  <% if (value.imgURL) { %>
+  <% if (value.iddev == 'infDev3') { %>
+    <a href="#" onclick="openVideo();return false;"><img src="/static/img/watchlive.jpg"></a>
+  <% } else if (value.imgURL) { %>
     <a href="<%= value.imgURL %>" target="_blank"><img src="<%= value.imgURL + '?' + Math.random() %>"><div class="imgDate"><%= new Date(value.sensors.date).toLocaleString("ru") %></div></a>
   <% } %>
 

@@ -109,3 +109,14 @@ window.main = function () {
   }
   
 };
+
+window.openVideo = function() {
+  document.getElementById('videoContainer').style.display = 'block';
+  document.getElementById('video').src = "http://geoworks.pro:23288/stream/video.mjpeg";
+};
+
+window.closeVideo = function() {
+  document.getElementById('videoContainer').style.display = 'none';
+  document.getElementById('video').src = "";
+};
+
