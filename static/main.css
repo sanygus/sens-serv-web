@@ -339,3 +339,19 @@ a.headerLogo {
   color: #333;
   font-weight: bold;
 }
+.videoContainer {
+  position: absolute;
+  left: 50%;
+  top: 300px;
+  transform: translateX(-50%);
+  width: 640px;
+  height: 480px;
+  display: none;
+}
+.videoContainerClose {
+  position: absolute;
+  right: 7px;
+  top: 5px;
+  color: #FFF;
+  cursor: pointer;
+}
