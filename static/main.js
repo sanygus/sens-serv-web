@@ -90,19 +90,26 @@ window.main = function () {
         }
       });
 
+      var container;
       for (var iddev in DATA) {
-        createChart(
-          iddev + 'TempChart',
-          document.querySelector('.sunItem#' + iddev + ' .graphItem.temp'),
-          DATA[iddev].temp.slice(-10),
-          {min: -10, max: 32}
-        );
-        createChart(
-          iddev + 'PressChart',
-          document.querySelector('.sunItem#' + iddev + ' .graphItem.press'),
-          DATA[iddev].press.slice(-10),
-          {min: 720, max: 780}
-        );
+        container = document.querySelector('.sunItem#' + iddev + ' .graphItem.temp');
+        if (container) {
+          createChart(
+            iddev + 'TempChart',
+            container,
+            DATA[iddev].temp.slice(-10),
+            {min: -10, max: 32}
+          );
+        }
+        container = document.querySelector('.sunItem#' + iddev + ' .graphItem.press');
+        if (container) {
+          createChart(
+            iddev + 'PressChart',
+            container,
+            DATA[iddev].press.slice(-10),
+            {min: 720, max: 780}
+          );
+        }
       }
 
     }
