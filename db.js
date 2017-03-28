@@ -141,4 +141,17 @@ module.exports.exportAll = (callback) => {
   });
 }
 
+module.exports.exportEvents = (callback) => {
+  dataBase.collection(dbCollectEvents).find(
+    {},
+    { '_id': false },
+    {
+      'sort': [['date','desc']],
+      'limit': 20,
+    }
+  ).toArray((errArr, values) => {
+    callback(errArr, values.reverse());
+  });
+}
+
 module.exports.getAllDevices = getAllDevices;

@@ -36,6 +36,15 @@ server.get('/export', (req, res) => {
         res.type('application/json').send(JSON.stringify({ values }));
       }
     });
+  } else if (req.query.events !== undefined) {
+    db.exportEvents((err, values) => {
+      if (err) {
+        log(err);
+        res.type('application/json').status(500).send({'error': 2});
+      } else {
+        res.type('application/json').send(JSON.stringify({ 'events': values }));
+      }
+    });
   } else if (req.query.csv !== undefined) {
     res.status(400).send('temporary unavailable');
   } else {
