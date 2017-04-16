@@ -125,7 +125,7 @@ module.exports.getLastValues = (callback) => {
 }
 
 const getAllDevices = (callback) => {
-  dataBase.collection(dbCollectDevices).find({}, { '_id': false }).toArray(callback);
+  dataBase.collection(dbCollectDevices).find({}, { '_id': false }, { 'sort': 'order' }).toArray(callback);
 }
 
 module.exports.exportAll = (callback) => {
