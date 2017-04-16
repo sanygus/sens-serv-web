@@ -139,6 +139,7 @@ window.wakeUpDevice = function(device) {
     if (xhr.readyState == 4 && xhr.status == 200) {
       if (JSON.parse(xhr.responseText).status === "ok") {
         document.getElementById('wakeUpAction-' + device).children[0].src = "/static/img/wakeup.png";
+        document.getElementById('wakeUpAction-' + device).children[0].title = "Пробуждается... подождите минуту";
       } else { console.log('error'); }
     }
   }
