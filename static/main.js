@@ -127,3 +127,17 @@ window.closeVideo = function() {
   document.getElementById('video').src = "";
 };
 
+window.wakeUpDevice = function(device) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', "http://geoworks.pro:1234/watch?action=set&iddev=" + device + "&status=1", true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      if (JSON.parse(xhr.responseText).status === "ok") {
+        document.getElementById('wakeUpAction-' + device).children[0].src = "/static/img/wakeup.png";
+      } else { console.log('error'); }
+    }
+  }
+  xhr.send();
+};
+
+window.lastDateCnt = "";

@@ -81,7 +81,7 @@ a.headerLogo {
   /*width: 780px;*/
   margin-left: 240px;
 }
-.status-warn, .status {
+.status-warn, .status, .wakeUpAction {
   display: inline-block;
 }
 .sunItemHeader {
@@ -107,7 +107,20 @@ a.headerLogo {
   height: 25px;
   background-image: url('/static/img/warning.png');
   background-size: cover;
+  background-repeat: no-repeat;
   cursor: pointer;
+}
+.wakeUpAction {
+  width: 25px;
+  height: 25px;
+  /*background-repeat: no-repeat;
+  background-position: center;*/
+  text-align: right;
+  cursor: pointer;
+}
+.wakeUpAction > img {
+  position: relative;
+  top: -4px;
 }
 .status-text {
   padding-bottom: 8px;

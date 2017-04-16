@@ -13,17 +13,17 @@
         <% if (value.status.event === 'wakeup' && ((new Date) - new Date(value.sensors.date) <= 300000)) { %>
           <div class="status status-online"></div>
         <% } else if (value.status.event === 'sleep') { %>
-          <div class="status status-offline"></div>
+          <div class="wakeUpAction" id="wakeUpAction-<%= value.iddev %>" onclick="window.wakeUpDevice('<%= value.iddev %>')"><img src="/static/img/sleep.png"></div>
         <% } else { %>
           <div class="status status-offline"></div>
         <% } %>
       <%  } %>
       <% if (value.sensors.charge !== undefined) { %>
-      <span class="batteryStatus">
-        <span class="batteryLevel" style="width: <%= (value.sensors.charge * 20).toFixed(1) %>px;"></span>
-        <span class="batteryBg"></span>
-      </span>
-      <span class="batteryStatusText"><%= (value.sensors.charge * 100).toFixed(1) %>%</span>
+        <span class="batteryStatus">
+          <span class="batteryLevel" style="width: <%= (value.sensors.charge * 20).toFixed(1) %>px;"></span>
+          <span class="batteryBg"></span>
+        </span>
+        <span class="batteryStatusText"><%= (value.sensors.charge * 100).toFixed(1) %>%</span>
       <% } %>
     </span>
   </div>

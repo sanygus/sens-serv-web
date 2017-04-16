@@ -5,9 +5,13 @@ function getRenderContent() {
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var cnt = JSON.parse(xhr.responseText);
-      document.getElementById('sunPuterContent').innerHTML = ejs.render(template, cnt);
+      var lastDate = lastDateInData(cnt.values);
+      if (lastDate != window.lastDateCnt) {
+        document.getElementById('sunPuterContent').innerHTML = ejs.render(template, cnt);
+        window.main();
+        window.lastDateCnt = lastDate;
+      }
       document.getElementById('loaderimg').style.display = 'none';
-      window.main();
       setTimeout(getRenderContent, 20000);
     }
   }
@@ -24,3 +28,12 @@ xhrtempl.onreadystatechange = function() {
   }
 }
 xhrtempl.send();
+
+function lastDateInData(arr) {
+  var lastDate = "";
+  arr.forEach(function (v) {
+    if (v.status.date > lastDate) { lastDate = v.status.date; }
+    if (v.sensors.date > lastDate) { lastDate = v.sensors.date; }
+  });
+  return lastDate;
+}
