@@ -12,7 +12,7 @@
       <% if (value.status) { %>
         <% if (value.status.event === 'wakeup' && ((new Date) - new Date(value.sensors.date) <= 300000)) { %>
           <div class="status status-online"></div>
-        <% } else if (value.status.event === 'sleep') { %>
+        <% } else if ((value.status.event === 'sleep') && (value.iddev == 'infDev4')) { %>
           <div class="wakeUpAction" id="wakeUpAction-<%= value.iddev %>" onclick="window.wakeUpDevice('<%= value.iddev %>')"><img src="/static/img/sleep.png"></div>
         <% } else { %>
           <div class="status status-offline"></div>
