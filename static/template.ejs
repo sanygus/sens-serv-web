@@ -29,7 +29,7 @@
   </div>
   <div style="width:240px;">
   <% if (((value.iddev == 'infDev3') || (value.iddev == 'infDev4')) && (value.status.event === 'wakeup') && ((new Date) - new Date(value.sensors.date) <= 300000)) { %>
-    <a href="#" onclick="openVideo();return false;"><img src="/static/img/watchlive.jpg"></a>
+    <a href="#" onclick="openVideo('<%= value.iddev %>');return false;"><img src="/static/img/watchlive.jpg"></a>
   <% } %>
   <% if (value.imgURL) { %>
     <a href="<%= value.imgURL %>" target="_blank"><img src="<%= value.imgURL + '?' + Math.random() %>"><div class="imgDate"><%= new Date(value.sensors.date).toLocaleString("ru") %></div></a>

@@ -117,9 +117,14 @@ window.main = function () {
   
 };
 
-window.openVideo = function() {
+window.openVideo = function(device) {
+  var port = "";
+  switch (device) {
+    case 'infDev3': port = "23288"; break;
+    case 'infDev4': port = "23289"; break;
+  }
   document.getElementById('videoContainer').style.display = 'block';
-  document.getElementById('video').src = "http://geoworks.pro:23288/stream/video.mjpeg";
+  document.getElementById('video').src = "http://geoworks.pro:" + port + "/stream/video.mjpeg";
 };
 
 window.closeVideo = function() {
