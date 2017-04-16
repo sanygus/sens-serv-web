@@ -28,7 +28,7 @@
     </span>
   </div>
   <div style="width:240px;">
-  <% if ((value.iddev == 'infDev3') && (value.status.event === 'wakeup') && ((new Date) - new Date(value.sensors.date) <= 300000)) { %>
+  <% if (((value.iddev == 'infDev3') || (value.iddev == 'infDev4')) && (value.status.event === 'wakeup') && ((new Date) - new Date(value.sensors.date) <= 300000)) { %>
     <a href="#" onclick="openVideo();return false;"><img src="/static/img/watchlive.jpg"></a>
   <% } %>
   <% if (value.imgURL) { %>
