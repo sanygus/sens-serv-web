@@ -12,7 +12,7 @@ function getRenderContent() {
         window.lastDateCnt = lastDate;
       }
       document.getElementById('loaderimg').style.display = 'none';
-      setTimeout(getRenderContent, 20000);
+      setTimeout(getRenderContent, 10000);
     }
   }
   xhr.send();
