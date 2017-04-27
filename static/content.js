@@ -1,7 +1,7 @@
 function getRenderContent() {
   document.getElementById('loaderimg').style.display = 'block';
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', "/content", true);
+  xhr.open('GET', "/content?" + Math.random(), true);
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var cnt = JSON.parse(xhr.responseText);
