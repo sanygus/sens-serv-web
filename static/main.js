@@ -120,6 +120,7 @@ window.main = function () {
 window.openVideo = function(device) {
   var port = "";
   switch (device) {
+    case 'infDev2': port = "23287"; break;
     case 'infDev3': port = "23288"; break;
     case 'infDev4': port = "23289"; break;
   }
