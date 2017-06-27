@@ -33,7 +33,7 @@ server.get('/export', (req, res) => {
         log(err);
         res.type('application/json').status(500).send({'error': 1});
       } else {
-        res.type('application/json').send(JSON.stringify({ values }));
+        res.header("Access-Control-Allow-Origin", "*").type('application/json').send(JSON.stringify({ values }));
       }
     });
   } else if (req.query.events !== undefined) {
